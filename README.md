@@ -8,7 +8,7 @@ A full-stack store rating platform built with Express.js, PostgreSQL, and React.
 
 | Service | URL |
 |---------|-----|
-| Frontend (Vercel) | https://retail-pulse-psi.vercel.app |
+| Frontend (Vercel) | https://retail-pulse-three.vercel.app |
 | Backend API (Render) | https://retailpulse-api-2rk7.onrender.com/api/health |
 
 > The backend is hosted on Render's free tier. The first request after a period of inactivity may take 30–60 seconds to cold-start.
