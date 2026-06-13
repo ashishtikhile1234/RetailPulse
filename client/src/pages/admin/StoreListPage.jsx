@@ -26,7 +26,7 @@ export default function StoreListPage() {
   const [sortBy, setSortBy] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
   const [page, setPage] = useState(1);
-  const limit = 10;
+  const [limit, setLimit] = useState(10);
 
   const fetchStores = useCallback(async () => {
     setLoading(true);
@@ -102,7 +102,16 @@ export default function StoreListPage() {
           </table>
         </div>
         <div className="table-pagination">
-          <span>Showing {Math.min((page-1)*limit+1,total)}–{Math.min(page*limit,total)} of {total}</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span>Rows per page:</span>
+            <select className="form-select" style={{ width: 72, padding: '4px 8px', fontSize: '0.8rem' }}
+              value={limit} onChange={e => { setLimit(Number(e.target.value)); setPage(1); }}>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+            </select>
+            <span style={{ marginLeft: 8 }}>Showing {Math.min((page-1)*limit+1,total)}–{Math.min(page*limit,total)} of {total}</span>
+          </div>
           <div className="pagination-controls">
             <button className="btn btn-secondary btn-sm" disabled={page<=1} onClick={()=>setPage(p=>p-1)}>Previous</button>
             <span style={{padding:'0 8px',fontSize:'0.85rem'}}>Page {page} of {Math.max(1,Math.ceil(total/limit))}</span>

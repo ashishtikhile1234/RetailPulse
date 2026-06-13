@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { LayoutDashboard, Users, Store, Star, Bell, LogOut, KeyRound, BarChart3 } from 'lucide-react';
+import { LayoutDashboard, Users, Store, LogOut, KeyRound, BarChart3 } from 'lucide-react';
 
 const adminLinks = [
   { to: '/admin/dashboard', icon: <LayoutDashboard size={18} />, label: 'Dashboard' },
@@ -8,26 +8,27 @@ const adminLinks = [
   { to: '/admin/stores',    icon: <Store size={18} />,           label: 'Stores' },
 ];
 const userLinks = [
-  { to: '/stores',          icon: <Store size={18} />,           label: 'Browse Stores' },
-  { to: '/account/password',icon: <KeyRound size={18} />,        label: 'Change Password' },
+  { to: '/stores',           icon: <Store size={18} />,    label: 'Browse Stores' },
+  { to: '/account/password', icon: <KeyRound size={18} />, label: 'Change Password' },
 ];
 const ownerLinks = [
-  { to: '/owner/dashboard', icon: <BarChart3 size={18} />,       label: 'My Store Dashboard' },
-  { to: '/account/password',icon: <KeyRound size={18} />,        label: 'Change Password' },
+  { to: '/owner/dashboard',  icon: <BarChart3 size={18} />, label: 'My Store Dashboard' },
+  { to: '/account/password', icon: <KeyRound size={18} />, label: 'Change Password' },
 ];
 
 const linksByRole = { admin: adminLinks, user: userLinks, store_owner: ownerLinks };
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const links = linksByRole[user?.role] || [];
   const initials = user?.name?.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase() || '?';
 
   const handleLogout = () => { logout(); navigate('/login'); };
+  const handleNav = () => { if (onClose) onClose(); };
 
   return (
-    <aside className="app-sidebar">
+    <aside className={`app-sidebar${isOpen ? ' open' : ''}`}>
       <div className="sidebar-logo">
         <div className="sidebar-logo-icon">RP</div>
         <span className="sidebar-logo-text">RetailPulse</span>
@@ -38,6 +39,7 @@ export default function Sidebar() {
           <NavLink
             key={link.to}
             to={link.to}
+            onClick={handleNav}
             className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}
           >
             {link.icon}
@@ -54,7 +56,7 @@ export default function Sidebar() {
             <div className="sidebar-user-role">{user?.role?.replace('_', ' ')}</div>
           </div>
         </div>
-        <button className="sidebar-link btn-ghost w-full mt-2" onClick={handleLogout} style={{color:'var(--danger)'}}>
+        <button className="sidebar-link btn-ghost w-full mt-2" onClick={handleLogout} style={{ color: 'var(--danger)' }}>
           <LogOut size={18} /> Logout
         </button>
       </div>

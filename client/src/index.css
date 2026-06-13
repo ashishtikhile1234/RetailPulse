@@ -433,13 +433,72 @@ tr:hover td { background: #fafafa; }
 .gap-3 { gap: 12px; }
 .w-full { width: 100%; }
 
+/* ── Hamburger button (hidden on desktop) ──────────────────── */
+.hamburger-btn { display: none; }
+
+/* ── Sidebar Overlay (mobile) ──────────────────────────────── */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 99;
+}
+
 /* ── Responsive ────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .app-sidebar { transform: translateX(-100%); }
+  /* Show hamburger */
+  .hamburger-btn { display: inline-flex; }
+
+  /* Sidebar slides in */
+  .app-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 200;
+  }
   .app-sidebar.open { transform: translateX(0); }
+
+  /* Show overlay when sidebar is open */
+  .sidebar-overlay { display: block; }
+
+  /* Main content fills full width */
   .app-main { margin-left: 0; }
   .app-content { padding: 16px; }
+
+  /* Topbar layout on mobile */
+  .app-topbar { gap: 12px; }
+
+  /* Store cards: single column */
   .stores-grid { grid-template-columns: 1fr; }
+
+  /* Stat cards: 2 columns */
   .stat-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Auth card smaller padding */
   .auth-card { padding: 28px 20px; }
+
+  /* Table: allow horizontal scroll */
+  .table-wrapper { overflow-x: auto; }
+
+  /* Pagination wraps on small screens */
+  .table-pagination { flex-direction: column; align-items: flex-start; gap: 10px; }
+
+  /* Page header stacks vertically */
+  .page-header { flex-direction: column; align-items: flex-start; }
+
+  /* Table toolbar stacks */
+  .table-toolbar { flex-direction: column; align-items: stretch; }
+  .search-input-wrapper { max-width: 100%; }
+
+  /* Store user rating block wraps */
+  .store-user-rating { flex-direction: column; align-items: flex-start; }
 }
+
+@media (max-width: 480px) {
+  /* Stat cards: single column on very small */
+  .stat-grid { grid-template-columns: 1fr; }
+
+  .page-title { font-size: 1.2rem; }
+  .stat-value { font-size: 1.5rem; }
+}
+
